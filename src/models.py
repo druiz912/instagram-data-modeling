@@ -16,35 +16,6 @@ class Users(Base):
     password = Column(String(12), nullable=False)
     favourites = relationship("Favourites", backref= "users", lazy=True)
 
-class Planets(Base):
-    __tablename__ = 'planets'
-    id_planets = Column(Integer, primary_key=True)
-    name_planets = Column(String(30))
-    coordinates = Column(Integer, nullable=True)
-
-class Characters(Base):
-    __tablename__ = 'characters'
-    id_characters = Column(Integer, primary_key=True)
-    name_characters = Column(String(30))
-    breed = Column(String(30))
-
-class Starships(Base):
-    __tablename__ = 'starships'
-    id_starship = Column(Integer, primary_key=True)
-    name_starship = Column(String(30))
-    origin = Column(String(50))
-
-class Favourites(Base):
-    __tablename__ = 'favorites'
-    id_favourite = Column(Integer, primary_key=True)
-    id_user = Column(Integer, ForeignKey('users.id_user'), nullable=False)
-    id_planets = Column(Integer, ForeignKey('planets.id_planet'))
-    id_characters = Column(Integer, ForeignKey('characters.id_character'))
-    id_starship = Column(Integer, ForeignKey('starships.id_starship'))    
-
-    def to_dict(self):
-        return {}
-
 ## Draw from SQLAlchemy base
 try:
     result = render_er(Base, 'diagrama.png')
