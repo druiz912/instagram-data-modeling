@@ -7,14 +7,39 @@ from sqlalchemy import create_engine
 from eralchemy import render_er
 
 Base = declarative_base()
-class Users(Base):
-    __tablename__ = 'users'
-    id_user = Column(Integer, primary_key=True)
-    name = Column(String(30), nullable=False)
-    last_name = Column(String(30), nullable=False)
-    email = Column(String(30), nullable=False)
-    password = Column(String(12), nullable=False)
-    favourites = relationship("Favourites", backref= "users", lazy=True)
+class User(Base):
+    __tablename__ = 'User'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    mail = Column(String, unique = True)
+    password = Column(String)
+
+class Followers(Base):
+    __tablename__ = 'Followers'
+    id = Column(Integer, primary_key=True)
+    user_From_id = Column(Integer, ForeignKey('User.id'))
+    user_To_id = Column(Integer, ForeignKey('User.id'))
+
+class Post(Base):
+    __tablename__ = 'Post'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('User.id'))
+    description = Column(String, nullable = True)
+
+class Media(Base):
+    __tablename__ = 'Media'
+    id = Column(Integer, primary_key=True)
+    post_id = Column(Integer, ForeignKey('Post.id'))
+    source_Media = Column(String)
+    type_Media = Column(String)  
+
+class Comment(Base):
+    __tablename__ = 'Comment'
+    id = Column(Integer, primary_key=True)
+    post_id = Column(Integer, ForeignKey('Post.id'))
+    user_id = Column(Integer, ForeignKey('User.id'))
+    comment = Column(String)
+
 
 ## Draw from SQLAlchemy base
 try:
